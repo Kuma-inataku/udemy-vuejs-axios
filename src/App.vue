@@ -42,9 +42,7 @@ export default {
     }
   },
   created() {
-    axios.get(
-      'https://firestore.googleapis.com/v1/projects/vuejs-http-9dcd9/databases/(default)/documents/comments'
-      )
+    axios.get('/comments')
       .then(response => {
         this.posts = response.data.documents;
         console.log(response);
@@ -52,9 +50,7 @@ export default {
   },
   methods: {
     createComment() {
-      axios.post(
-        'https://firestore.googleapis.com/v1/projects/vuejs-http-9dcd9/databases/(default)/documents/comments',
-        {
+      axios.post('/comments', {
           fields: {
             name: {
               stringValue: this.name,
