@@ -19,7 +19,14 @@
     >送る
     </button>
     <h2>掲示板</h2>
-
+    <div
+      v-for="post in posts"
+      :key="post.name"
+    >
+      <div>名前：{{ post.fields.name.stringValue }}</div>
+      <div>コメント：{{ post.fields.comment.stringValue }}</div>
+      <br>
+    </div>
   </div>
 </template>
 
@@ -31,6 +38,7 @@ export default {
     return {
       name: "",
       comment: "",
+      posts: [],
     }
   },
   created() {
@@ -38,6 +46,7 @@ export default {
       'https://firestore.googleapis.com/v1/projects/vuejs-http-9dcd9/databases/(default)/documents/comments'
       )
       .then(response => {
+        this.posts = response.data.documents;
         console.log(response);
       });
   },
