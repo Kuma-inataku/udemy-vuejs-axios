@@ -31,7 +31,12 @@ export default {
   },
   methods: {
     login() {
-
+      this.$store.dispatch('login', {
+        email: this.email,
+        password: this.password,
+      });
+      this.email="";
+      this.password="";
     },
   }
 }
