@@ -19,7 +19,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    autoLogin({ commit, dispatch }) {
+    async autoLogin({ commit, dispatch }) {
       const idToken = localStorage.getItem('idToken');
       if (! idToken) {
         return;
@@ -29,7 +29,7 @@ export default new Vuex.Store({
       const isExpired = now.getTime() >= expiryTimeMs;
       const refreshToken = localStorage.getItem('refreshToken');
       if (isExpired) {
-        dispatch('refreshIdToken', refreshToken);
+        await dispatch('refreshIdToken', refreshToken);
       } else {
         const expiresInMs = expiryTimeMs - now.getTime();
         setTimeout(() => {
@@ -39,7 +39,8 @@ export default new Vuex.Store({
       }
     },
     login({ dispatch }, authData) {
-      axios.post(
+      axios
+      .post(
         '/accounts:signInWithPassword?key=AIzaSyAv00TLj_DpntxJ3k2sumCQshxMjnQELJM',
         {
           email: authData.email,
@@ -55,8 +56,9 @@ export default new Vuex.Store({
         router.push('/');
       });
     },
-    refreshIdToken({ dispatch }, refreshToken) {
-      axiosRefresh.post(
+    async refreshIdToken({ dispatch }, refreshToken) {
+      await axiosRefresh
+      .post(
         '/token?key=AIzaSyAv00TLj_DpntxJ3k2sumCQshxMjnQELJM',
         {
           grant_type: 'refresh_token',
@@ -71,7 +73,8 @@ export default new Vuex.Store({
       });
     },
     register({ dispatch }, authData) {
-      axios.post(
+      axios
+      .post(
         '/accounts:signUp?key=AIzaSyAv00TLj_DpntxJ3k2sumCQshxMjnQELJM',
         {
           email: authData.email,
