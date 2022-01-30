@@ -101,5 +101,12 @@ export default new Vuex.Store({
         dispatch('refreshIdToken', authData.refreshToken);
       }, authData.expiresIn * 1000);
     },
+    logout({ commit }) {
+      commit('updateIdToken', null);
+      localStorage.removeItem('idToken');
+      localStorage.removeItem('expiryTimeMs');
+      localStorage.removeItem('refreshToken');
+      router.push('/login');
+    },
   }
 });
